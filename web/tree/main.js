@@ -2900,10 +2900,8 @@ TreeStore.dispatchToken = MessageDispatcher.register(function(p) {
   var a;
   a = p.action;
   if (TreeStore[a.type]) {
-    return setTimeout(function() {
-      TreeStore[a.type](a);
-      return TreeStore.emitChange();
-    }, 0);
+    TreeStore[a.type](a);
+    return TreeStore.emitChange();
   }
 });
 
