@@ -1,9 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var TreeDispatcher, TreePersistence;
+var TreeDispatcher, TreePersistence, _initialLoad;
 
 TreeDispatcher = require('../dispatcher/Dispatcher.coffee');
 
 TreePersistence = require('../persistence/TreePersistence.coffee');
+
+_initialLoad = true;
 
 module.exports = {
   loadPath: function(path, data) {
@@ -21,6 +23,7 @@ module.exports = {
     });
   },
   clearData: function() {
+    _initialLoad = false;
     TreePersistence.refresh();
     return TreeDispatcher.handleServerAction({
       type: "clearData"
@@ -29,6 +32,9 @@ module.exports = {
   sendQuery: function(path, query) {
     if (query == null) {
       return;
+    }
+    if (_initialLoad) {
+      console.warn("Requesting data druing initial page load", JSON.stringify(path), query);
     }
     if (path.slice(-1) === "/") {
       path = path.slice(0, -1);
@@ -81,6 +87,7 @@ module.exports = {
     }, "write-plan-info", "hood");
   },
   setCurr: function(path) {
+    _initialLoad = false;
     return TreeDispatcher.handleViewAction({
       type: "setCurr",
       path: path
@@ -1275,7 +1282,9 @@ module.exports = recl({
     })(this));
   },
   componentWillUnmount: function() {
-    return TreeActions.clearNav();
+    return setTimeout((function() {
+      return TreeActions.clearNav();
+    }), 0);
   },
   render: function() {
     return div({
