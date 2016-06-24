@@ -86,8 +86,11 @@ module.exports = {
       loc: loc
     }, "write-plan-info", "hood");
   },
-  setCurr: function(path) {
-    _initialLoad = false;
+  setCurr: function(path, init) {
+    if (init == null) {
+      init = true;
+    }
+    _initialLoad &= init;
     return TreeDispatcher.handleViewAction({
       type: "setCurr",
       path: path
@@ -2500,7 +2503,7 @@ $(function() {
   window.tree.actions = require('./actions/TreeActions.coffee');
   window.tree.actions.addVirtual(require('./components/Components.coffee'));
   frag = util.fragpath(window.location.pathname.replace(/\.[^\/]*$/, ''));
-  window.tree.actions.setCurr(frag);
+  window.tree.actions.setCurr(frag, true);
   window.tree.actions.loadPath(frag, window.tree.data);
   if (window.tree.sein != null) {
     window.tree.actions.loadSein(frag, window.tree.sein);
