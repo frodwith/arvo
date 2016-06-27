@@ -1520,18 +1520,19 @@ module.exports = query({
     TreeStore.addChangeListener(this._onChangeStore);
     _this = this;
     $('body').on('click', 'a', function(e) {
-      var href, url;
+      var basepath, href, url;
       href = $(this).attr('href');
       if ((href != null ? href[0] : void 0) === "#") {
         return true;
       }
       if (href && !/^https?:\/\//i.test(href)) {
-        e.preventDefault();
         url = new URL(this.href);
         if (!/http/.test(url.protocol)) {
           return;
         }
-        if (urb.util.basepath("", url.pathname) !== urb.util.basepath("", document.location.pathname)) {
+        e.preventDefault();
+        basepath = urb.util.basepath;
+        if (basepath("", url.pathname) !== basepath("", document.location.pathname)) {
           document.location = this.href;
           return;
         }
