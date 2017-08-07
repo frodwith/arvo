@@ -8696,7 +8696,6 @@
     ~/  %mint
     |=  {gol/span gen/twig}
     ^-  {p/span q/nock}
-    ~&  %pure-mint
     |^  ^-  {p/span q/nock}
     ?:  ?&(=(%void sut) !?=({$dbug *} gen))
       ?.  |(!vet ?=({$lost *} gen) ?=({$fail *} gen))
@@ -9021,6 +9020,10 @@
             gil/(set {p/span q/span})                   ::  assume nest
         ==
     =<  dext
+    ~%  %arms  ..$
+      ==
+        %dext  dext
+      ==
     |%
     ++  deem
       |=  {mel/vair ram/vair}
