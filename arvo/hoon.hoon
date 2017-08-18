@@ -8701,69 +8701,26 @@
       ?.  |(!vet ?=({$lost *} gen) ?=({$fail *} gen))
         ~|(%mint-vain !!)
       [%void %0 0]
-    ?-    gen
+    ?+    gen
+      =+  doz=~(open ap gen)
+      ?:  =(doz gen)
+        ~_  (show [%c 'hoon'] [%q gen])
+        ~|(%mint-open !!)
+      $(gen doz)
     ::
         {^ *}
       =+  hed=$(gen p.gen, gol %noun)
       =+  tal=$(gen q.gen, gol %noun)
       [(nice (cell p.hed p.tal)) (cons q.hed q.tal)]
     ::
-        {$core *}  (grow %gold [%$ 1] p.gen)
-    ::
-        {$make *}  (~(mint et p.gen q.gen) gol)
-        {$wish *}
-      =+  nef=$(gen [%bunt p.gen])
-      [p.nef [%11 [%1 %151 p.nef] q:$(gen q.gen, gol %noun)]]
-    ::
-        {$bump *}  [(nice [%atom %$ ~]) [%4 q:$(gen p.gen, gol [%atom %$ ~])]]
-        {$sand *}  [(nice (play gen)) [%1 q.gen]]
-        {$rock *}  [(nice (play gen)) [%1 q.gen]]
-    ::
-        {$nock *}
-      [(nice %noun) [%2 q:$(gen p.gen, gol %noun) q:$(gen q.gen, gol %noun)]]
-    ::
-        {$same *}
-      =+  [one two]=[$(gen p.gen, gol %noun) $(gen q.gen, gol %noun)]
-      [(nice bool) [%5 q:$(gen p.gen, gol %noun) q:$(gen q.gen, gol %noun)]]
-    ::
-        {$deep *}  [(nice bool) [%3 q:$(gen p.gen, gol %noun)]]
-        {$hand *}  [p.gen q.gen]
-        {$iron *}  =+(vat=$(gen p.gen) [(wrap(sut p.vat) %iron) q.vat])
-    ::
-        {$like *}
-      =+(hif=(nice (play p.gen)) [hif q:$(gen q.gen, gol hif)])
-    ::
-        {$zinc *}  =+(vat=$(gen p.gen) [(wrap(sut p.vat) %zinc) q.vat])
-        {$burn *}
-      =+  nef=$(gen p.gen)
-      :-  p.nef
-      =+  cag=burn
-      ?~  cag  q.nef
-      =+  moc=(mink [u.cag q.nef] |=({* *} ~))
-      ?:(?=($0 -.moc) [%1 p.moc] q.nef)
-    ::
-        {$name *}  =+(vat=$(gen q.gen) [(conk(sut p.vat) p.gen) q.vat])
-        {$lead *}  =+(vat=$(gen p.gen) [(wrap(sut p.vat) %lead) q.vat])
-        {$peep *}  ~_(duck(sut (play p.gen)) $(gen q.gen))
-        {$hint *}
-      =+  hum=$(gen q.gen)
-      :: ?:  &(huz !?=($|(@ [?(%fast %memo) ^]) p.gen))
-      ::  hum
-      :-  p.hum
-      :+  %10
-        ?-    p.gen
-            @   p.gen
-            ^   [p.p.gen q:$(gen q.p.gen, gol %noun)]
-        ==
-      q.hum
-    ::
-        {$per *}
-      =+  fid=$(gen p.gen, gol %noun)
-      =+  dov=$(sut p.fid, gen q.gen)
-      [p.dov (comb q.fid q.dov)]
-    ::
-        {$aka *}
-      $(gen r.gen, sut (buss p.gen q.gen))
+        {$fits *}
+      =+  heb=[%herb p.gen]
+      =+  nob=~(bunt al heb)
+      =+  dok=[%wing q.gen]
+      =+  vol=corn(gen dok)
+      =+  axe=(coke vol)
+      =+  wam=(play nob)
+      [(nice bool) (fish(sut wam) axe)]
     ::
         {$if *}
       =+  nor=$(gen p.gen, gol bool)
@@ -8777,55 +8734,112 @@
       =+  ran=$(sut wux, gen r.gen)
       [(fork p.hiq p.ran ~) (cond duy q.hiq q.ran)]
     ::
-        {$fits *}
-      :-  (nice bool)
-      =+  ref=(play ~(bunt al %herb p.gen))
-      =+  fid=(find %read q.gen)
-      ~|  [%test q.gen]
-      |-  ^-  nock
-      ?-  -.fid
-        $&  ?-  -.q.p.fid
-              $&  (fish(sut ref) (tend p.p.fid))
-              $|  $(fid [%| (fine fid)])
-            ==
-        $|  [%7 q.p.fid (fish(sut ref) 1)]
-      ==
+        {$cons *}
+      =+  hed=$(gen p.gen, gol %noun)
+      =+  tal=$(gen q.gen, gol %noun)
+      :_  (cons q.hed q.tal)
+      (nice (cell p.hed p.tal))
     ::
+        {$same *}
+      =+  typ=(nice bool)
+      =+  one=$(gen p.gen, gol %noun)
+      =+  two=$(gen q.gen, gol %noun)
+      ?:  ?&  vet
+              !(nest(sut p.one) | p.two)
+              !(nest(sut p.two) & p.one)
+          ==
+        ~|(%nest !!)
+      [(nice bool) [%5 q.one q.two]]
+    ::
+        {$deep *}  [(nice bool) [%3 corn(gen p.gen)]]
+        {$wish *}
+      =+  nef=$(gen [%bunt p.gen])
+      [p.nef [%11 [%1 %151 p.nef] q:$(gen q.gen, gol %noun)]]
+    ::
+        {$bump *}
+      =+  tom=[%atom %$ ~]
+      =+  sam=$(gen p.gen, gol tom)
+      [(nice tom) [%4 q.sam]]
+    ::
+        {$rock *}  [(nice (play gen)) [%1 q.gen]]
+        {$nock *}
+      =+  one=corn(gen p.gen)
+      =+  two=corn(gen q.gen)
+      [(nice %noun) [%2 one two]]
+    ::
+        {$sand *}  [(nice (play gen)) [%1 q.gen]]
+        {$hand *}  +.gen
+        {$iron *}  =+(vat=$(gen p.gen) [(wrap(sut p.vat) %iron) q.vat])
+        {$zinc *}  =+(vat=$(gen p.gen) [(wrap(sut p.vat) %zinc) q.vat])
+        {$lead *}  =+(vat=$(gen p.gen) [(wrap(sut p.vat) %lead) q.vat])
+        {$name *}  =+(vat=$(gen q.gen) [(conk(sut p.vat) p.gen) q.vat])
+        {$burn *}
+      =+  nef=$(gen p.gen)
+      :-  p.nef
+      =+  cag=burn
+      ?~  cag  q.nef
+      =+  moc=(mink [u.cag q.nef] |=({* *} ~))
+      ?:(?=($0 -.moc) [%1 p.moc] q.nef)
+    ::
+        {$like *}
+      =+(hif=(nice (play p.gen)) [hif q:$(gen q.gen, gol hif)])
+    ::
+        {$per *}
+      =+  fid=$(gen p.gen, gol %noun)
+      =+  dov=$(sut p.fid, gen q.gen)
+      [p.dov (comb q.fid q.dov)]
+    ::
+        {$aka *}
+      $(gen r.gen, sut (buss p.gen q.gen))
+    ::
+        {$make *}  (~(mint et p.gen q.gen) gol)
+        {$core *}  (grow %gold [%$ 1] p.gen)
+        {$peep *}  ~_(duck(sut (play p.gen)) $(gen q.gen))
+        {$hint *}
+      =+  hum=$(gen q.gen)
+      :: ?:  &(huz !?=($|(@ [?(%fast %memo) ^]) p.gen))
+      ::  hum
+      :-  p.hum
+      :+  %10
+        ?-    p.gen
+            @   p.gen
+            ^   [p.p.gen corn(gen q.gen)]
+        ==
+      q.hum
+    ::
+        {$code *}   [(nice %noun) [%1 corn(vet |, gen p.gen)]]
+        {$twig *}   [(nice (play p.gen)) [%1 q.gen]]   ::  XX validate!
         {$dbug *}
       ~_  (show %o p.gen)
       =+  hum=$(gen q.gen)
       [p.hum [%10 [%spot %1 p.gen] q.hum]]
     ::
-        {$twig *}   [(nice (play p.gen)) [%1 q.gen]]   ::  XX validate!
+        {$spit *}
+      =+  vos=$(gol %noun, gen q.gen)
+      =+  zur=(play p.gen)
+      =+  waz=[%1 p.vos]
+      =+  cig=(cell zur p.vos)
+      [(nice cig) (cons waz q.vos)]
+    ::
         {$lost *}
       ?:  vet
         ~_  (dunk(sut (play p.gen)) 'lost')
         ~|(%mint-lost !!)
       [%void [%0 0]]
     ::
-        {$spit *}
-      =+  vos=$(gol %noun, gen q.gen)
-      =+  ref=p:$(gol %noun, gen p.gen)
-      ?>  (~(nest ut p:!>(*span)) & ref)
-      [(nice (cell ref p.vos)) (cons [%1 p.vos] q.vos)]
+        {$fail $~}  [%void [%0 0]]
+    ==
     ::
-        {$wrap *}
-      =+  vat=$(gen p.gen)
-      %=    $
-          gen
-        :-  [%call [%limb %onan] [%hand p:!>(*span) [%1 p.vat]] ~]
-        [%hand p.vat q.vat]
+    ++  coke
+      |=  nug/nock
+      ?+  nug  ~|(%mint-coke !!)
+        {$0 *}   p.nug
+        {$10 *}  $(nug q.nug)
       ==
     ::
-        {$code *}   [(nice %noun) [%1 q:$(vet |, gen p.gen)]]
-        {$fail $~}  [%void [%0 0]]
-        *
-      =+  doz=~(open ap gen)
-      ?:  =(doz gen)
-        ~_  (show [%c 'hoon'] [%q gen])
-        ~|(%mint-open !!)
-      $(gen doz)
-    ==
+    ++  corn
+      ^-  nock
+      q:$(gol %noun)
     ::
     ++  nice
       |=  typ/span
