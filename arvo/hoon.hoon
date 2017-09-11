@@ -8803,7 +8803,7 @@
       :+  %10
         ?-    p.gen
             @   p.gen
-            ^   [p.p.gen corn(gen q.gen)]
+            ^   [p.p.gen corn(gen q.p.gen)]
         ==
       q.hum
     ::
