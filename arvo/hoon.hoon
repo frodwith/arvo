@@ -9088,10 +9088,18 @@
       |=  {mel/vair ram/vair}
       ^-  ?
       ?.  |(=(mel ram) =(%lead mel) =(%gold ram))  |
-      ?:  ?=($lead mel)  &
-      ?:  ?=($gold mel)  meet
-      =+  vay=?-(mel $iron %rite, $zinc %read)
-      dext(sut (peek vay 2), ref (peek(sut ref) vay 2))
+      ?-  mel
+        $lead  &
+        $gold  meet
+        $iron  %=  dext
+                 sut  (peek(sut ref) %rite 2)
+                 ref  (peek %rite 2)
+               ==
+        $zinc  %=  dext
+                 sut  (peek %read 2)
+                 ref  (peek(sut ref) %read 2)
+               ==
+      ==
     ::
     ++  deep
       |=  {dab/(map term foot) hem/(map term foot)}
