@@ -2653,6 +2653,7 @@
   ^+  [p=*(list move) q=..^$]
   ?-    -.q.hic
       $boat
+    =.  hez.ruf  `hen
     :_  ..^$
     [hen %give %hill (turn (~(tap by mon.ruf)) head)]~
   ::
