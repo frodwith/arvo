@@ -5676,7 +5676,7 @@
       ::  complete composition
       ::
       $(fol c.fol, bus one)
-    ::
+    ::  
     ::  8; introduction
     ::
         {$8 b/* c/*}       
@@ -5707,7 +5707,7 @@
       %+  require
         ::  retrieve formula
         ::
-        (fragment b.fol bus)
+        (fragment b.fol one)
       ::  continue
       ::
       |=(noun ^$(bus one, fol +<))
@@ -6549,9 +6549,9 @@
     ~$  %ut-ersatz-make
     ersatz
   ++  clam  
-    ~&  [%clam-model mod]
-    =-  ~&  [%clam-product -]
-        -
+    ::  ~&  [%clam-model mod]
+    ::  =-  ~&  [%clam-product -]
+    ::      -
     ~$  %ut-factory-call
     ~+
     ~$  %ut-factory-make
@@ -6579,7 +6579,7 @@
       $(mod q.mod)
     ::
         {$herb *}
-      =+  cys=~(boil ap p.mod)
+      =+  cys=~(boil aq p.mod)
       ?:  ?=($herb -.cys)
         (home [%tsgl [%limb %$] p.mod])
       $(mod cys)
@@ -6672,7 +6672,7 @@
         {$herb *}
       %-  decorate
       =.  doc  ~
-      =+  cys=~(boil ap p.mod)
+      =+  cys=~(boil aq p.mod)
       ?:  ?=($herb -.cys)
         (home [%tsgl [%limb %$] p.mod])
       ersatz(mod cys)
@@ -6693,6 +6693,11 @@
     ^-  hoon
     :+  %sgbc
       %run-mold
+    =-  ::  for basic molds that don't need the subject,
+        ::  clear it so constants fold better
+        ::
+        ?.  ?=(?($axil $leaf) -.mod)  -
+        [%tsgr [%rock %n 0] -]
     :^  %brts  ~^~
       [%base %noun]
     :+  %sgbc
@@ -9151,6 +9156,9 @@
     ?:  ?=($| -.u.jon)
       ?:  fab
         pro
+      ::  ~|  %musk-blocked
+      ~_  (dunk '%musk-blocked-type')
+      ~|  [%musk-blocked-gene gen]
       ~|  [%musk-blocked-mask mask.bus]
       ~|  [%musk-blocked-formula q.pro]
       !!
@@ -9914,7 +9922,7 @@
       |-(?~(p.gen sut $(p.gen t.p.gen, sut ^$(gen i.p.gen))))
     ?:  ?&(!how ?=({$wtbr *} gen))
       |-(?~(p.gen sut $(p.gen t.p.gen, sut ^$(gen i.p.gen))))
-    =+  neg=~(open ap gen)
+    =+  neg=?:(fab ~(open ap gen) ~(open aq gen))
     ?:(=(neg gen) sut $(gen neg))
   ::
   ++  mint
