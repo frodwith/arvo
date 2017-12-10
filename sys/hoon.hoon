@@ -1,6 +1,7 @@
 ::                                                      ::
 ::::    /sys/hoon                                       ::
   ::                                                    ::
+!:
 =<  ride
 =>  %143  =>
 ::                                                      ::
@@ -230,6 +231,49 @@
     $3  +((mul a 2))
     *   (add (mod b 2) (mul $(b (div b 2)) 2))
   ==
+::                                                      ::
+::::  2n: functional hacks                              ::
+  ::                                                    ::
+  ::
+++  aftr  |*(a/$-(* *) |*(b/$-(* *) (pair b a)))        ::  pair after
+++  cork  |*({a/_|=(* **) b/gate} (corl b a))           ::  compose forward
+++  corl                                                ::  compose backwards
+  |*  {a/gate b/_|=(* **)}
+  =<  +:|.((a (b)))      ::  type check
+  |*  c/_+<.b
+  (a (b c))
+::
+++  cury                                                ::  curry left
+  |*  {a/$-(^ *) b/*}
+  =+  c=+<+.a
+  |%  +-  $  (a b c)
+  --
+::
+++  curr                                                ::  curry right
+  |*  {a/$-(^ *) c/*}
+  =+  b=+<+.a
+  |%  +-  $  (a b c)
+  --
+::
+++  fore  |*(a/$-(* *) |*(b/$-(* *) (pair a b)))        ::  pair before
+++  hard                                                ::  force remold
+  |*  han/$-(* *)
+  |=  fud/*  ^-  han
+  ~_  leaf+"hard"
+  =+  gol=(han fud)
+  ?>(=(gol fud) gol)
+::
+::
+++  head  |*(^ ,:+<-)                                   ::  get head
+++  same  |*(* +<)                                      ::  identity
+++  soft                                                ::  maybe remold
+  |*  han/$-(* *)
+  |=  fud/*  ^-  (unit han)
+  =+  gol=(han fud)
+  ?.(=(gol fud) ~ [~ gol])
+::
+++  tail  |*(^ ,:+<+)                                   ::  get tail
+++  test  |=(^ =(+<- +<+))                              ::  equality
 ::
 :>  #  %containers
 :>
@@ -247,7 +291,7 @@
   :>
   :>  mold generator: produces a discriminated fork between two types,
   :>  defaulting to {a}.
-  |*({a/mold b/mold} $%({$| p/b} {$& p/a}))
+  |*({a/$-(* *) b/$-(* *)} $%({$| p/b} {$& p/a}))
 ::
 ++  gate
   :>    function
@@ -262,13 +306,13 @@
   :>
   :>  mold generator: produces a mold of a null-terminated list of the
   :>  homogeneous type {a}.
-  |*(a/mold $@($~ {i/a t/(list a)}))
+  |*(a/$-(* *) $@($~ {i/a t/(list a)}))
 ::
 ++  lone
   :>    single item tuple
   :>
   :>  mold generator: puts the face of `p` on the passed in mold.
-  |*(a/mold {p/a})
+  |*(a/$-(* *) {p/a})
 ::
 ++  mold
   :>    normalizing gate
@@ -283,7 +327,7 @@
   :>
   :>  a: first type, labeled {p}
   :>  b: second type, labeled {q}
-  |*({a/mold b/mold} {p/a q/b})
+  |*({a/$-(* *) b/$-(* *)} {p/a q/b})
 ::
 ++  pole
   :>    faceless list
@@ -291,7 +335,7 @@
   :>  like ++list, but without the faces {i} and {t}.
   :>
   :>  a: a mold for the item type.
-  |*(a/mold $@($~ {a (pole a)}))
+  |*(a/$-(* *) $@($~ {a (pole a)}))
 ::
 ++  qual
   :>    quadruple tuple
@@ -302,7 +346,7 @@
   :>  b: second type, labeled {q}
   :>  c: third type, labeled {r}
   :>  d: fourth type, labeled {s}
-  |*  {a/mold b/mold c/mold d/mold}
+  |*  {a/$-(* *) b/$-(* *) c/$-(* *) d/$-(* *)}
   {p/a q/b r/c s/d}
 ::
 ++  quip
@@ -313,13 +357,13 @@
   :>
   :>  a: type of list item
   :>  b: type of returned state
-  |*({a/mold b/mold} {(list a) b})
+  |*({a/$-(* *) b/$-(* *)} {(list a) b})
 ::
 ++  trap
   :>    a core with one arm `$`
   :>
   :>  a: return type of the `$` arm.
-  |*(a/mold _|?(*a))
+  |*(a/$-(* *) _|?($:a))
 ::
 ++  tree
   :>    tree mold generator
@@ -328,7 +372,7 @@
   :>  left/right sub `++tree` of the same type. pretty-printed with `{}`.
   :>
   :>  a: type of tree node
-  |*(a/mold $@($~ {n/a l/(tree a) r/(tree a)})) ::  binary tree
+  |*(a/$-(* *) $@($~ {n/a l/(tree a) r/(tree a)})) ::  binary tree
 ::
 ++  trel
   :>    triple tuple
@@ -338,7 +382,7 @@
   :>  a: first type, labeled {p}
   :>  b: second type, labeled {q}
   :>  c: third type, labeled {r}
-  |*({a/mold b/mold c/mold} {p/a q/b r/c})
+  |*({a/$-(* *) b/$-(* *) c/$-(* *)} {p/a q/b r/c})
 ::
 ++  unit
   :>    maybe
@@ -347,7 +391,54 @@
   :>  type that was passed in.
   :>
   :>  a: type when non-null
-  |*(a/mold $@($~ {$~ u/a}))
+  |*(a/$-(* *) $@($~ {$~ u/a}))
+::
+::                                                      ::
+::::  2o: normalizing containers                        ::
+  ::                                                    ::
+  ::
+++  jar  |*({a/mold b/mold} (map a (list b)))           ::  map of lists
+++  jug  |*({a/mold b/mold} (map a (set b)))            ::  map of sets
+++  map  |*  {a/mold b/mold}                            ::  table
+         %+  cork  (tree (pair a b))                    ::
+         |=  c/(tree (pair a b))  ^+  c                 ::
+         ::  ?.(~(apt by c) ~ c)                        ::  XX verify
+         c
+++  qeu  |*(a/mold (tree a))                            ::  queue
+++  set  |*  a/mold                                     ::  set
+         %+  cork  (tree a)                             ::
+         |=  b/(tree a)  ^+  b                          ::
+         ::  ?.(~(apt in b) ~ b)                        ::  XX verify
+         b
+::
+::::  2q: molds and mold builders                       ::
+  ::                                                    ::
+  ::
+++  char  @t                                            ::  UTF8 byte
+++  cord  @t                                            ::  UTF8, LSB first
+++  date  {{a/? y/@ud} m/@ud t/tarp}                    ::  parsed date
+++  knot  @ta                                           ::  ASCII text
+++  tang  (list tank)                                   ::  bottom-first error
+++  tank  $%  {$leaf p/tape}                            ::  printing formats
+              $:  $palm                                 ::  backstep list
+                  p/{p/tape q/tape r/tape s/tape}       ::
+                  q/(list tank)                         ::
+              ==                                        ::
+              $:  $rose                                 ::  flat list
+                  p/{p/tape q/tape r/tape}              ::  mid open close
+                  q/(list tank)                         ::
+              ==                                        ::
+          ==                                            ::
+++  tanq                                                ::  tomorrow's tank
+          $?  {$~ p/(list tanq)}                        ::  list of printables
+              {$~ $~ p/tape}                            ::  simple string
+              (pair @tas tanq)                          ::  captioned
+          ==                                            ::
+++  tape  (list @tD)                                    ::  UTF8 string as list
+++  tarp  {d/@ud h/@ud m/@ud s/@ud f/(list @ux)}        ::  parsed time
+++  term  @tas                                          ::  ascii symbol
+++  wain  (list cord)                                   ::  text lines
+++  wall  (list tape)                                   ::  text lines
 --  =>
 ::                                                      ::
 ::::  2: layer two                                      ::
@@ -623,16 +714,16 @@
   ?:  =(0 a)  i.b
   $(b t.b, a (dec a))
 ::
-++  sort   !.                                           ::  quicksort
+++  sort  !.                                            ::  quicksort
   ~/  %sort
   |*  {a/(list) b/$-({* *} ?)}
   =>  .(a ^.(homo a))
   |-  ^+  a
   ?~  a  ~
   %+  weld
-    $(a (skim t.a |=(c/_i.a (b c i.a))))
+    $(a (skim t.a |:(c=i.a (b c i.a))))
   ^+  t.a
-  [i.a $(a (skim t.a |=(c/_i.a !(b c i.a))))]
+  [i.a $(a (skim t.a |:(c=i.a !(b c i.a))))]
 ::
 ++  spin
   |*  {a/(list) b/_|=({* *} [** +<+]) c/*}
@@ -1756,74 +1847,6 @@
     ?~  a  b
     [i=i.a t=$(a t.a)]
   --
-::                                                      ::
-::::  2n: functional hacks                              ::
-  ::                                                    ::
-  ::
-++  aftr  |*(a/$-(* *) |*(b/$-(* *) (pair b a)))        ::  pair after
-++  cork  |*({a/_|=(* **) b/gate} (corl b a))           ::  compose forward
-++  corl                                                ::  compose backwards
-  |*  {a/gate b/_|=(* **)}
-  =<  +:|.((a (b)))      ::  type check
-  |*  c/_+<.b
-  (a (b c))
-::
-++  cury                                                ::  curry left
-  |*  {a/_|=(^ **) b/*}
-  |*  c/_+<+.a
-  (a b c)
-::
-++  curr                                                ::  curry right
-  |*  {a/_|=(^ **) c/*}
-  |*  b/_+<+.a
-  (a b c)
-::
-++  fore  |*(a/$-(* *) |*(b/$-(* *) (pair a b)))        ::  pair before
-++  hard                                                ::  force remold
-  |*  han/$-(* *)
-  |=  fud/*  ^-  han
-  ~_  leaf+"hard"
-  =+  gol=(han fud)
-  ?>(=(gol fud) gol)
-::
-::
-++  head  |*(^ ,:+<-)                                   ::  get head
-++  same  |*(* +<)                                      ::  identity
-++  soft                                                ::  maybe remold
-  |*  han/$-(* *)
-  |=  fud/*  ^-  (unit han)
-  =+  gol=(han fud)
-  ?.(=(gol fud) ~ [~ gol])
-::
-++  slog                                                ::  deify printf
-  =|  pri/@                                             ::  priority level
-  |=  a/tang  ^+  same                                  ::  .=  ~&(%a 1)
-  ?~(a same ~>(%slog.[pri i.a] $(a t.a)))               ::  ((slog ~[>%a<]) 1)
-::                                                      ::  
-++  mean                                                ::  crash with trace
-  |=  a/tang
-  ^+  !!
-  ?~  a  !!
-  ~_(i.a $(a t.a))
-::
-++  tail  |*(^ ,:+<+)                                   ::  get tail
-++  test  |=(^ =(+<- +<+))                              ::  equality
-::
-::                                                      ::
-::::  2o: normalizing containers                        ::
-  ::                                                    ::
-  ::
-++  jar  |*({a/mold b/mold} (map a (list b)))           ::  map of lists
-++  jug  |*({a/mold b/mold} (map a (set b)))            ::  map of sets
-++  map  |*  {a/mold b/mold}                            ::  table
-         %+  cork  (tree (pair a b))                    ::
-         |=  c/(tree (pair a b))  ^+  c                 ::
-         ?.(~(apt by c) ~ c)                            ::
-++  qeu  |*(a/mold (tree a))                            ::  queue
-++  set  |*  a/mold                                     ::  set
-         %+  cork  (tree a)                             ::
-         |=  b/(tree a)  ^+  b                          ::
-         ?.(~(apt in b) ~ b)                            ::
 ::
 ::::  2p: serialization                                 ::
   ::                                                    ::
@@ -1898,35 +1921,6 @@
   =+  d=(add a +(c))
   =+  e=(add (bex (dec c)) (cut 0 [d (dec c)] b))
   [(add (add c c) e) (cut 0 [(add d (dec c)) e] b)]
-::
-::::  2q: molds and mold builders                       ::
-  ::                                                    ::
-  ::
-++  char  @t                                            ::  UTF8 byte
-++  cord  @t                                            ::  UTF8, LSB first
-++  date  {{a/? y/@ud} m/@ud t/tarp}                    ::  parsed date
-++  knot  @ta                                           ::  ASCII text
-++  tang  (list tank)                                   ::  bottom-first error
-++  tank  $%  {$leaf p/tape}                            ::  printing formats
-              $:  $palm                                 ::  backstep list
-                  p/{p/tape q/tape r/tape s/tape}       ::
-                  q/(list tank)                         ::
-              ==                                        ::
-              $:  $rose                                 ::  flat list
-                  p/{p/tape q/tape r/tape}              ::  mid open close
-                  q/(list tank)                         ::
-              ==                                        ::
-          ==                                            ::
-++  tanq                                                ::  tomorrow's tank
-          $?  {$~ p/(list tanq)}                        ::  list of printables
-              {$~ $~ p/tape}                            ::  simple string
-              (pair @tas tanq)                          ::  captioned
-          ==                                            ::
-++  tape  (list @tD)                                    ::  UTF8 string as list
-++  tarp  {d/@ud h/@ud m/@ud s/@ud f/(list @ux)}        ::  parsed time
-++  term  @tas                                          ::  ascii symbol
-++  wain  (list cord)                                   ::  text lines
-++  wall  (list tape)                                   ::  text lines
 --  =>
 ::                                                      ::
 ::::  3: layer three                                    ::
@@ -6656,6 +6650,33 @@
     =/  fin  $(doc t.doc)
     ?~(i.doc gen [%docs u.i.doc gen])
   ::
+  ++  clean
+    ::  yes if subject is not used and can be cleared
+    ::
+    ^-  ?
+    ?-  mod
+      {^ *}      &(clean(mod -.mod) clean(mod +.mod))
+      {$axil *}  &
+      {$bark *}  clean(mod q.mod)
+      {$herb *}  |
+      {$deet *}  clean(mod q.mod)
+      {$fern *}  |-  ^-  ?
+                 ?&  clean(mod i.p.mod)
+                     ?~  t.p.mod  &
+                     $(i.p.mod i.t.p.mod, t.p.mod t.t.p.mod)
+                 ==
+      {$kelp *}  |-  ^-  ?
+                 ?&  clean(mod i.p.mod)
+                     ?~  t.p.mod  &
+                     $(i.p.mod i.t.p.mod, t.p.mod t.t.p.mod)
+                 ==
+      {$leaf *}  &
+      {$plow *}  clean(mod q.mod)
+      {$reed *}  &(clean(mod p.mod) clean(mod q.mod))
+      {$vine *}  &(clean(mod p.mod) clean(mod q.mod))
+      {$weed *}  |
+    ==
+  ::
   ++  ersatz
     ::  produce a correctly typed instance without subject
     ::
@@ -6696,7 +6717,7 @@
     =-  ::  for basic molds that don't need the subject,
         ::  clear it so constants fold better
         ::
-        ?.  ?=(?($axil $leaf) -.mod)  -
+        ?.  clean  -
         [%tsgr [%rock %n 0] -]
     :^  %brts  ~^~
       [%base %noun]
@@ -9167,11 +9188,11 @@
     ?:  ?=($| -.u.jon)
       ?:  fab
         pro
-      ::  ~|  %musk-blocked
-      ~_  (dunk '%musk-blocked-type')
-      ~|  [%musk-blocked-gene gen]
-      ~|  [%musk-blocked-mask mask.bus]
-      ~|  [%musk-blocked-formula q.pro]
+      ~|  %musk-blocked
+      ::  ~_  (dunk '%musk-blocked-type')
+      ::  ~|  [%musk-blocked-gene gen]
+      ::  ~|  [%musk-blocked-mask mask.bus]
+      ::  ~|  [%musk-blocked-formula q.pro]
       !!
     [p.pro [%1 p.u.jon]]
   ::
@@ -9181,7 +9202,7 @@
     ?-    sut
         {$atom *}   q.sut
         {$cell *}   %+  biff  $(sut p.sut)
-                  |=(a/* (biff ^$(sut q.sut) |=(b/* `[a b])))
+                    |=(a/* (biff ^$(sut q.sut) |=(b/* `[a b])))
         {$core *}   (biff $(sut p.sut) |=(* `[p.s.q.sut +<]))
         {$face *}   $(sut repo)
         {$fork *}   ~
@@ -11336,6 +11357,17 @@
   |=  {vax/vase gen/hoon}  ^-  vase                     ::  untyped vase .*
   =+  gun=(~(mint ut p.vax) %noun gen)
   [p.gun .*(q.vax q.gun)]
+::
+++  slog                                                ::  deify printf
+  =|  pri/@                                             ::  priority level
+  |=  a/tang  ^+  same                                  ::  .=  ~&(%a 1)
+  ?~(a same ~>(%slog.[pri i.a] $(a t.a)))               ::  ((slog ~[>%a<]) 1)
+::                                                      ::  
+++  mean                                                ::  crash with trace
+  |=  a/tang
+  ^+  !!
+  ?~  a  !!
+  ~_(i.a $(a t.a))
 ::
 ++  slew                                                ::  get axis in vase
   |=  {axe/@ vax/vase}  ^-  (unit vase)
