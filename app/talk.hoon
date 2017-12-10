@@ -137,8 +137,7 @@
         (runt [(sub len lez) '-'] nez)
       :(welp pre (scag (dec len) nez) "+")
     ++  glyphs  `wall`~[">=+-" "}),." "\"'`^" "$%&@"]     :: station char pool
-    ++  peer-type                                       ::  stream requests
-      =<  apex
+    ++  peer-lib                                        ::  stream requests
       |%
       ++  apex  ?($a-group $f-grams $v-glyph $x-cabal)  ::  options
       ++  encode  |=(a/apex ^-(char (end 3 1 a)))       ::  by first char
@@ -151,6 +150,8 @@
           $x  %x-cabal
         ==
       --
+    ++  peer-type                                       ::  stream requests
+      apex:peer-lib
     --
 |%
 ::  old protocol workaround door
@@ -388,7 +389,7 @@
           +>
         =/  typ
           =+  (le:nl ~[%a-group %f-grams %x-cabal])
-          (rap 3 (turn - encode:peer-type))
+          (rap 3 (turn - encode:peer-lib))
         (ra-subscribe:(ra-subscribe her.she ~) her.she [typ man.she ~])
       ==
     ::
@@ -1549,7 +1550,7 @@
       (ra-house(general (~(put in general) ost.hid)) ost.hid)
     ?.  ?=({@ @ *} pax)
       (ra-evil %talk-bad-path)
-    =+  vab=(~(gas in *(set peer-type)) (turn (rip 3 i.pax) decode:peer-type))
+    =+  vab=(~(gas in *(set peer-type)) (turn (rip 3 i.pax) decode:peer-lib))
     =+  pur=(~(get by stories) i.t.pax)
     ?~  pur
       ~&  [%bad-subscribe-story-c i.t.pax]
@@ -1772,7 +1773,7 @@
       =+  ini=?^(num (scot %ud u.num) (scot %da old))
       =/  typ
         =+  (le:nl ~[%a-group %f-grams %x-cabal])
-        (rap 3 (turn - encode:peer-type))
+        (rap 3 (turn - encode:peer-lib))
       ?-  -.tay
         $|  !!
         $&  ::  ~&  [%pa-acquire [our.hid man] [p.p.tay q.p.tay]]
