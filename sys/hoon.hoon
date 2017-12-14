@@ -4501,10 +4501,12 @@
   (next tub)
 ::
 ++  knee                                                ::  callbacks
-  |*  {gar/* sef/_|.(*rule)}
-  |=  tub/nail
-  ^-  (like _gar)
-  ((sef) tub)
+  =|  {gar/* sef/_|.(*rule)}
+  |%  +-  $
+        |=  tub/nail
+        ^-  (like _gar)
+        ((sef) tub)
+  --
 ::
 ++  mask                                                ::  match char in set
   ~/  %mask
@@ -4635,7 +4637,7 @@
   $(hel r.hel)
 ::
 ++  slug                                                ::
-  |*  raq/_|*({a/* b/*} [a b])
+  |*  raq/_=>(~ |*({a/* b/*} [a b]))
   |*  {bus/rule fel/rule}
   ;~((comp raq) fel (stir +<+.raq raq ;~(pfix bus fel)))
 ::
@@ -4645,7 +4647,7 @@
 ::
 ++  stir
   ~/  %stir
-  |*  {rud/* raq/_|*({a/* b/*} [a b]) fel/rule}
+  |*  {rud/* raq/_=>(~ |*({a/* b/*} [a b])) fel/rule}
   ~/  %fun
   |=  tub/nail
   ^-  (like _rud)
@@ -4964,7 +4966,7 @@
 ::
 ::::  4k: atom printing
   ::
-++  co  !.
+++  co
   ~%  %co  ..co  ~
   =<  |_  lot/coin
       ++  rear  |=(rom/tape =>(.(rep rom) rend))
@@ -5474,6 +5476,8 @@
   (mook (mink [sub fol] gul))
 ::
 ++  musk                                                ::  nock with block set
+  =>  ::  keep soft core out of models
+      +
   =>  |%
       ++  block  
         ::  identity of resource awaited
@@ -5533,7 +5537,7 @@
     ::
     |+~(tap in blocks)
   ::
-  ++  apex
+  ++  araw
     ::  execute nock on partial subject
     ::
     |=  $:  ::  bus: subject, a partial noun
@@ -5542,10 +5546,6 @@
             bus/seminoun
             fol/noun
         ==
-    ^-  output
-    ::  simplify result
-    ::
-    %-  abet
     ::  interpreter loop
     ::
     |-  ^-  result
@@ -5737,6 +5737,20 @@
       $(fol d.fol)
     ==
   ::
+  ++  apex
+    ::  execute nock on partial subject
+    ::
+    |=  $:  ::  bus: subject, a partial noun
+            ::  fol: formula, a complete noun
+            ::
+            bus/seminoun
+            fol/noun
+        ==
+    ^-  output
+    ::  simplify result
+    ::
+    (abet (araw bus fol))
+  ::
   ++  combine
     ::  combine a pair of seminouns
     ::
@@ -5893,7 +5907,7 @@
   --
 ::
 ++  mute                                                ::  untyped virtual
-  |=  taq/_^?(|.(**))
+  |=  taq/_=>(~ ^?(|.(**)))
   ^-  (each * (list tank))
   =+  ton=(mock [taq 9 2 0 1] |=({* *} ~))
   ?-  -.ton
@@ -6175,7 +6189,6 @@
               {$help p/writ q/type}                     ::  description
               {$hold p/type q/hoon}                     ::  lazy evaluation
           ==                                            ::
-++  tyro  $-(type type)                                 ::  type converter
 ++  tone  $%  {$0 p/*}                                  ::  success
               {$1 p/(list)}                             ::  blocks
               {$2 p/(list {@ta *})}                     ::  error ~_s
@@ -6865,28 +6878,7 @@
       ::  probe for cell or default
       ::
       ^-  hoon
-      ::  ~&  [%probe axe mod]
-      ::
-      ::  old subject is wrapped by trap
-      ::
-      =:  axe  (peg 3 axe)
-          dom  (peg 3 dom)
-        ==
-      ::  guarded trap
-      ::
-      :+  %tsgr
-        ::  construct within trap
-        ::
-        :+  %brdt  ~^~ 
-        ::  trap is only kicked if sample is cell
-        ::
-        ::  :+  %sgbc
-        ::  %run-deep
-        construct(top [& &])
-      ::  boc: call constructor
-      ::  but: default
-      ::
-      =/  boc/hoon  [%limb %$]
+      =/  boc/hoon  construct(top [& &])
       =/  but/hoon  default
       ::  :+  %sgbc
       ::    %run-probing
@@ -7295,11 +7287,12 @@
       :-  %weed
       :-  %cold
       :+  %tsgr
-        [p.gen q.gen]
+        :-  [%tsgr p.gen [%limb %$]] 
+        [%tsgr q.gen [%limb %$]]
       :-  %ktbr
       :^  %brcl  [~ ~]
-        [%tsgr [%$ 2] [%limb %$]]
-      [%tsgr [%$ 15] [%limb %$]]
+        [%$ 2]
+      [%$ 15]  
     ::
         {$halo *}  [%plow p.gen boil(gen q.gen)]
         {$bcts *}  [%bark p.gen boil(gen q.gen)]
@@ -8004,18 +7997,21 @@
     ::  ~>  %slog.[%0 (dunk 'blow-subject')]
     =+  bus=bran
     ::  ~|  mask.bus
-    =+  jon=(apex:musk bus q.pro)
+    =+  jon=?:(fab (apex:musk bus q.pro) (apex:musk bus q.pro))
     ?~  jon
       ?:  fab
         [p.pro [%10 [%live %1 %constant-stop] q.pro]]
       ::  [p.pro [%10 [%live %1 %constant-stop-fab] q.pro]]
+      ::  ~_  (dunk '%constant-blocked-type')
+      ::  ~|  [%constant-stopped-gene gen]
+      ::  ~|  [%constant-stopped-mask mask.bus]
+      ::  ~|  [%constant-stopped-formula `@p`(mug q.pro) q.pro]
       ~|  %constant-folding-stopped
       !!
     ?:  ?=($| -.u.jon)
       ?:  fab
         [p.pro [%10 [%live %1 %constant-block] q.pro]]
       ::  [p.pro [%10 [%live %1 %constant-block-fab] q.pro]]
-      ~&  %constant-blocked
       ~_  (dunk '%constant-blocked-type')
       ~|  [%constant-blocked-gene gen]
       ~|  [%constant-blocked-mask mask.bus]
@@ -9650,7 +9646,7 @@
     ==
   ::
   ++  take
-    |=  {vit/vein duz/tyro}
+    |=  {vit/vein duz/$-(type type)}
     ^-  (pair axis type)
     :-  (tend vit)
     =.  vit  (flop vit)
