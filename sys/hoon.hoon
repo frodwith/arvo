@@ -1,8 +1,6 @@
 ::                                                      ::
 ::::    /sys/hoon                                       ::
   ::                                                    ::
-!:
-^%
 =<  ride
 =>  %143  =>
 ::                                                      ::
@@ -7700,12 +7698,16 @@
   ::
   ++  walk                                              ::  forward traverse
     |*  life/mold
-    |=  $:  vit/life
+    |:  =<  $
+        $:  vit/life
             $=  mac
-            $-  $:  hoon
+            $_  ^|
+            |:  =<  $
+                $:  hoon
                     life
-                    $-({? hoon life} {hoon life})
+                    _^|(|:($:{? hoon life} $:{hoon life}))
                 ==
+            =<  $
             (unit (pair hoon life))
         ==
     ^-  {hoon life}
@@ -7714,7 +7716,7 @@
     |%  
     ++  apex
       |-  ^-  {hoon life}
-      =*  aid  |=  {use/? gen/hoon vit/life} 
+      =*  aid  |:  $:{use/? gen/hoon vit/life} 
                ^$(use use, gen gen, vit vit)
       =/  gun  ?:(use (mac gen vit aid) ~)
       ?^  gun  u.gun
@@ -7868,8 +7870,10 @@
       ==
     ::
     ++  lead
-      |*  {sem/@tas out/{* life}}
-      [[sem -.out] +.out]
+      =+  [sem=@tas out=[** $:life]]
+      |%  +-  $
+            [[sem -.out] +.out]
+      --
     ::
     ++  moan
       (moto nexp)
@@ -7878,13 +7882,17 @@
       (moto expr)
     ::
     ++  moto
-      |*  etc/$-(* {* life})
-      |*  bud/*
-      ^+  [bud vit]
-      ?:  =(~ bud)  [bud vit]
-      =^  heb  vit  (etc -.bud)
-      =^  mor  vit  $(bud +.bud)
-      [[heb mor] vit]
+      =+  =<  $
+          $:  etc/_^|(|:(** $:{* life}))
+          ==
+      |%  +-  $
+            |*  bud/*
+            ^+  [bud vit]
+            ?:  =(~ bud)  [bud vit]
+            =^  heb  vit  (etc -.bud)
+            =^  mor  vit  $(bud +.bud)
+            [[heb mor] vit]
+      --
     ::
     ++  nexp
       (twin noop expr)
@@ -7894,41 +7902,51 @@
       [bud vit]
     ::
     ++  quad
-      |*  $:  one/$-(* {* life})
-              two/$-(* {* life})
-              tri/$-(* {* life})
-              qua/$-(* {* life})
+      =+  =<  $
+          $:  one/_^|(|:(** $:{* life}))
+              two/_^|(|:(** $:{* life}))
+              tri/_^|(|:(** $:{* life}))
+              qua/_^|(|:(** $:{* life}))
           ==
-      |*  bud/*
-      =^  yal  vit  (one -.bud)
-      =^  ves  vit  (two +<.bud)
-      =^  jot  vit  (tri +>-.bud)
-      =^  wip  vit  (qua +>+.bud)
-      [[yal ves jot wip] vit]
+      |%  +-  $
+            |*  bud/*
+            =^  yal  vit  (one -.bud)
+            =^  ves  vit  (two +<.bud)
+            =^  jot  vit  (tri +>-.bud)
+            =^  wip  vit  (qua +>+.bud)
+            [[yal ves jot wip] vit]
+      --
     ::
     ++  raid
-      |*  etc/$-(* {* life})
-      |*  bud/*
-      ^+  [bud vit]
-      ?:  =(~ bud)  [bud vit]
-      =^  lef  vit  $(bud +<.bud)
-      =^  ryt  vit  $(bud +>.bud)
-      =^  top  vit  (etc ->.bud)
-      [[[-<.bud top] lef ryt] vit]
+      =+  =<  $
+          $:  etc/_^|(|:(** $:{* life}))
+          ==
+      |%  +-  $
+            |*  bud/*
+            ^+  [bud vit]
+            ?:  =(~ bud)  [bud vit]
+            =^  lef  vit  $(bud +<.bud)
+            =^  ryt  vit  $(bud +>.bud)
+            =^  top  vit  (etc ->.bud)
+            [[[-<.bud top] lef ryt] vit]
+      --
     ::
     ++  trey
       (trio expr expr expr)
     ::
     ++  trio
-      |*  $:  one/$-(* {* life})
-              two/$-(* {* life})
-              tri/$-(* {* life})
+      =+  =<  $
+          $:  one/_^|(|:(** $:{* life}))
+              two/_^|(|:(** $:{* life}))
+              tri/_^|(|:(** $:{* life}))
           ==
-      |*  bud/*
-      =^  yal  vit  (one -.bud)
-      =^  ves  vit  (two +<.bud)
-      =^  jot  vit  (tri +>.bud)
-      [[yal ves jot] vit]
+      |%  +-  $
+            |*  bud/*
+            =^  yal  vit  (one -.bud)
+            =^  ves  vit  (two +<.bud)
+            =^  jot  vit  (tri +>.bud)
+            [[yal ves jot] vit]
+      --
     ::
     ++  trip
       (trio noop expr expr)
@@ -7952,11 +7970,16 @@
       (lead ~ (expr u.bud))
     ::
     ++  twin
-      |*  {one/$-(* {* life}) two/$-(* {* life})}
-      |*  bud/*
-      =^  yal  vit  (one -.bud)
-      =^  ves  vit  (two +.bud)
-      [[yal ves] vit]
+      =+  =<  $
+          $:  one/_^|(|:(** $:{* life}))
+              two/_^|(|:(** $:{* life}))
+          ==
+      |%  +-  $
+            |*  bud/*
+            =^  yal  vit  (one -.bud)
+            =^  ves  vit  (two +.bud)
+            [[yal ves] vit]
+      --
     --
   --
 ::
@@ -12580,11 +12603,6 @@
 ++  ship  @p                                            ::  network identity
 ++  shop  (each ship (list @ta))                        ::  urbit/dns identity
 ++  sink  (trel bone ship path)                         ::  subscription
-++  sley  $-  {* (unit (set monk)) term beam}           ::  namespace function
-          (unit (unit cage))                            ::
-++  slyd  $-  {* (unit (set monk)) term beam}           ::  super advanced
-          (unit (unit (cask)))                          ::
-++  slyt  $-({* *} (unit (unit)))                       ::  old namespace
 ++  spur  path                                          ::  ship desk case spur
 ++  time  @da                                           ::  galactic time
 ++  vile                                                ::  reflexive constants
