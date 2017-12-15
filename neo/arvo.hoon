@@ -62,32 +62,40 @@
           gift/mold                                     ::  <-$ out result
           sign/mold                                     ::  $<- in result
           note/mold                                     ::  $-> out request
-          soul/mold                                     ::  current state
+          mind/mold                                     ::  current state
           seed/mold                                     ::  prior state
       ==                                                ::
-  =*  move                                              ::
-    $%  {$give p/gift}                                  ::  return
-        {$pass p/path q/note}                           ::  invoke
-    ==                                                  ::
-  $_  =|  soul                                          ::  active state
-  ^?  |%                                                ::
-  ++  load  |~(seed +>)                                 ::  restore
-  ++  stay  *soul                                       ::  preserve
+  =*  self  (vane task gift sign note mind seed)        ::
+  $_  =|  mind
+  ^|  |%
+  ++  load  |~(seed ^|(+>))
+  ++  stay  $:mind                                      ::  preserve
   ++  plow                                              ::  work in time
-    |_  $:  now/@da                                     ::  date
+    =|  $:  now/@da                                     ::  date
             eny/@e                                      ::  entropy
             sky/roof                                    ::  namespace
         ==                                              ::
+    ^|  |%
     ++  doze  *(unit @da)                               ::  awake when
-    ++  peek  roof                                      ::  local namespace
+    ++  peek
+      |~  $:  lyc/(unit (set ship))                     ::  leakset
+              car/term                                  ::  perspective
+              bem/beam                                  ::  global path
+          ==
+      *(unit (unit (cask vase)))
+    ::
     ++  spin                                            ::  work on state
-      |_  $:  hen/duct                                  ::  cause stack
-              moz/(list move)                           ::  moves, inverted
-          ==                                            ::
-      ++  call  |~(task +>)                             ::  forward effect
-      ++  take  |~({wire sign} +>)                      ::  backward effect
+      =|  $:  hen/duct                                  ::  cause stack
+              moz/(list (pair duct (wind note gift)))   ::  actions, reversed
+          ==
+      ^|  |%
+      ++  call                                          ::  advancing effect
+        |~(task ^|(+>))
+      ::
+      ++  take                                          ::  returning effect
+        |~({wire sign} ^|(+>))
       --                                                ::
-    --                                                  ::
+    --
   --                                                    ::
 ++  wire  path                                          ::  cause
 --  =>
