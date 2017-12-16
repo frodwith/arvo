@@ -615,13 +615,15 @@
   ::  in `subs`.
   ::
   ++  duct-lift
-    |*  send/_|=({duct *} ..duct-lift)
-    |=  {a/(set duct) arg/_+<+.send}  ^+  ..duct-lift
-    =+  all=~(tap by a)
-    |-  ^+  ..duct-lift
-    ?~  all  ..duct-lift
-    =.  +>.send  ..duct-lift
-    $(all t.all, duct-lift (send i.all arg))
+    =+  send=|=({duct *} ..duct-lift)
+    |%  +-  $
+          |:  $:{a/(set duct) arg/_+<+.send}  ^+  ..duct-lift
+          =+  all=~(tap by a)
+          |-  ^+  ..duct-lift
+          ?~  all  ..duct-lift
+          =.  +>.send  ..duct-lift
+          $(all t.all, duct-lift (send i.all arg))
+    --
   ::
   ++  blub-all  (duct-lift |=({a/duct $~} (blub a)))    ::  lifted ++blub
   ++  blab-all  (duct-lift blab)                        ::  lifted ++blab
@@ -1617,7 +1619,7 @@
     (silt lat)
   ::
   ++  mabe                                            ::  maybe fire function
-    |=  {rov/rove fun/$-(@da _.)}
+    |:  $:{rov/rove fun/$-(@da _.)}
     ^+  +>.$
     %+  fall
       %+  bind
@@ -3459,8 +3461,8 @@
 ++  load
   =>  |%
       ++  cult-0  (map duct rove)
-      ++  dojo-0  (cork dojo |=(a/dojo a(qyx *cult-0)))
-      ++  rede-0  (cork rede |=(a/rede a(qyx *cult-0)))
+      ++  dojo-0  (cork dojo |=(a/dojo a(qyx $:cult-0)))
+      ++  rede-0  (cork rede |=(a/rede a(qyx $:cult-0)))
       ++  room-0  (cork room |=(a/room a(dos (~(run by dos.a) dojo-0))))
       ++  rung-0  (cork rung |=(a/rung a(rus (~(run by rus.a) rede-0))))
       ++  raft-0

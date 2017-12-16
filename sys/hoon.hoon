@@ -7304,7 +7304,6 @@
         {$bckt *}  [%vine boil(gen p.gen) boil(gen q.gen)]
         {$bchp *}
       :-  %weed
-      :-  %cold
       :+  %tsgr
         :-  [%tsgr p.gen [%limb %$]] 
         [%tsgr q.gen [%limb %$]]
