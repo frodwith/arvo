@@ -7329,6 +7329,7 @@
         {$base *}  ~(clam ax boil)
         {$bust *}  ~(bunt ax %axil p.gen)
         {$cold *}  p.gen
+        {$ktsg *}  p.gen
         {$dbug *}   q.gen
         {$eror *}  ~|(p.gen !!)
     ::
@@ -7436,7 +7437,7 @@
         i.p.gen
       [i.p.gen $(p.gen t.p.gen)]
     ::
-        {$bunt *}  [%cold ~(bunt ax %herb p.gen)]
+        {$bunt *}  [%ktsg ~(bunt ax %herb p.gen)]
         {$cncb *}  [%ktls [%wing p.gen] %cnts p.gen q.gen]
         {$cndt *}  [%cnhp q.gen [p.gen ~]]
         {$cnkt *}  [%cnhp p.gen q.gen r.gen s.gen ~]
