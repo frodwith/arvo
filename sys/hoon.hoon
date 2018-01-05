@@ -8873,13 +8873,7 @@
       =+(hif=(nice (play p.gen)) [hif q:$(gen q.gen, gol hif)])
     ::
         {$ktpm *}  =+(vat=$(gen p.gen) [(wrap(sut p.vat) %zinc) q.vat])
-        {$ktsg *}
-      =+  nef=$(gen p.gen)
-      :-  p.nef
-      =+  cag=burn
-      ?~  cag  q.nef
-      =+  moc=(mink [u.cag q.nef] |=({* *} ~))
-      ?:(?=($0 -.moc) [%1 p.moc] q.nef)
+        {$ktsg *}  (blow gol p.gen)
     ::
         {$ktts *}  =+(vat=$(gen q.gen) [(conk(sut p.vat) p.gen) q.vat])
         {$tune *}  [(face p.gen sut) [%0 %1]]
