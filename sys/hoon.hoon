@@ -5703,18 +5703,20 @@
       ::  one: core
       ::
       =+  one=$(fol c.fol)
-      ::  propagate stop
-      ::
-      ?~  one  ~
-      ::  complete call
-      ::
-      %+  require
-        ::  retrieve formula
-        ::
-        (fragment b.fol one)
-      ::  continue
-      ::
-      |=(noun ^$(bus one, fol +<))
+      ?-  one
+        ~           :: propagate stop
+                    ~
+        {{$& ~} *}  :: complete core, do real nock with jets
+                    [&+~ .*(data.one [%9 b.fol %0 1])]
+        *           :: incomplete core
+                    %+  require
+                      ::  retrieve formula
+                      ::
+                      (fragment b.fol one)
+                    ::  continue
+                    ::
+                    |=(noun ^$(bus one, fol +<))
+      ==
     ::
     ::  10; static hint
     ::
