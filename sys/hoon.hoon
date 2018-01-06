@@ -6035,7 +6035,6 @@
     {$base p/base}                                      ::  base
     {$bunt p/root}                                      ::  mold default value
     {$bust p/base}                                      ::  bunt base
-    {$cold p/hoon}                                      ::  fold constant
     {$dbug p/spot q/hoon}                               ::  debug info in trace
     {$eror p/tape}                                      ::  assembly error
     {$hand p/type q/nock}                               ::  premade result
@@ -7328,7 +7327,6 @@
     ::
         {$base *}  ~(clam ax boil)
         {$bust *}  ~(bunt ax %axil p.gen)
-        {$cold *}  p.gen
         {$ktsg *}  p.gen
         {$dbug *}   q.gen
         {$eror *}  ~|(p.gen !!)
@@ -8846,7 +8844,6 @@
       =+  tal=$(gen q.gen, gol %noun)
       [(nice (cell p.hed p.tal)) (cons q.hed q.tal)]
     ::
-        {$cold *}  (blow gol p.gen)
         {$ktcn *}  $(fab |, gen p.gen)
         {$brcn *}  (grow %gold [%$ 1] p.gen q.gen)
     ::
