@@ -4393,6 +4393,8 @@
 ::
 ++  pfix                                                ::  discard first rule
   ~/  %pfix
+  |*  sam=*
+  %.  sam
   (comp |*({a/* b/*} b))
 ::
 ++  plug                                                ::  first then second
@@ -4423,6 +4425,8 @@
 ::
 ++  sfix                                                ::  discard second rule
   ~/  %sfix
+  |*  sam=*
+  %.  sam
   (comp |*({a/* b/*} a))
 ::
 ::::  4f: parsing (rule builders)
