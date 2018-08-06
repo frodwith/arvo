@@ -8211,8 +8211,10 @@
           fab=`?`&
       ==
   =+  sut=`type`%noun
+  !:
   |%
   ++  blow
+    ~/  %blow
     |=  {gol/type gen/hoon}
     ^-  {type nock}
     =+  pro=(mint gol gen)
@@ -8234,7 +8236,9 @@
   ::
   ++  burn
     =+  gil=*(set type)
-    |-  ^-  (unit)
+    =<  $
+    ~%  %burn  ..burn  ~
+    |.  ^-  (unit)
     ?-    sut
         {$atom *}   q.sut
         {$cell *}   %+  biff  $(sut p.sut)
@@ -8251,7 +8255,9 @@
     ==
   ++  bran
     =+  gil=*(set type)
-    |-  ^-  seminoun:musk
+    =<  $
+    ~%  %bran  ..bran  ~
+    |.  ^-  seminoun:musk
     ?-    sut
       $noun      [&+[~ ~ ~] ~]
       $void      [&+[~ ~ ~] ~]
@@ -8282,6 +8288,7 @@
     [%face [wat [[cog ~ ~ gen] ~ ~] ~] sut]
   ::
   ++  conk
+    ~/  %conk
     |=  got/toga
     ^-  type
     ?@  got  [%face [~ got] sut]
@@ -8299,6 +8306,7 @@
     |=  ref/type
     =+  bix=*(set {type type})
     =<  dext
+    ~%  %crop-help  ..$  ~
     |%
     ++  dext
       ^-  type
@@ -8341,7 +8349,9 @@
         {$core *}  sut
         {$face *}  dext(ref repo(sut ref))
         {$fork *}  =+  yed=~(tap in p.ref)
-                   |-  ^-  type
+                   =<  $
+                   ~%  %crop-sint-loop  ..sint  ~
+                   |.  ^-  type
                    ?~  yed  sut
                    $(yed t.yed, sut dext(ref i.yed))
         {$hold *}  dext(ref repo(sut ref))
@@ -8349,6 +8359,7 @@
     --
   ::
   ++  cool
+    ~/  %cool
     |=  {pol/? hyp/wing ref/type}
     ^-  type
     =+  fid=(find %both hyp)
@@ -8362,12 +8373,14 @@
   ++  duck  ^-(tank ~(duck us sut))
   ++  dune  |.(duck)
   ++  dunk
+    ~/  %dunk
     |=  paz/term  ^-  tank
     :+  %palm
       [['.' ~] ['-' ~] ~ ~]
     [[%leaf (mesc (trip paz))] duck ~]
   ::
   ++  elbo
+    ~/  %elbo
     |=  {lop/palo rig/(list (pair wing hoon))}
     ^-  type
     ?:  ?=($& -.q.lop)
@@ -8393,13 +8406,16 @@
     ==
   ::
   ++  ergo
+    ~/  %ergo
     |=  {lop/palo rig/(list (pair wing hoon))}
     ^-  (pair type nock)
     =+  axe=(tend p.lop)
     =|  hej/(list (pair axis nock))
     ?:  ?=($& -.q.lop)
       =-  [p.- (hike axe q.-)]
-      |-  ^-  (pair type (list (pair axis nock)))
+      =<  $
+      ~%  %ergo-one  ..^$  ~
+      |.  ^-  (pair type (list (pair axis nock)))
       ?~  rig
         [p.q.lop hej]
       =+  zil=(mint %noun q.i.rig)
@@ -8411,7 +8427,9 @@
       ==
     =+  hag=~(tap in q.q.lop)
     =-  [(fire p.-) [%9 p.q.lop (hike axe q.-)]]
-    |-  ^-  (pair (list (pair type foot)) (list (pair axis nock)))
+    =<  $
+    ~%  %ergo-two  ..^$  ~
+    |.  ^-  (pair (list (pair type foot)) (list (pair axis nock)))
     ?~  rig
       [hag hej]
     =+  zil=(mint %noun q.i.rig)
@@ -8423,11 +8441,14 @@
     ==
   ::
   ++  endo
+    ~/  %endo
     |=  {lop/(pair palo palo) dox/type rig/(list (pair wing hoon))}
     ^-  (pair type type)
     ?:  ?=($& -.q.p.lop)
       ?>  ?=($& -.q.q.lop)
-      |-  ^-  (pair type type)
+      =<  $
+      ~%  %endo-one  ..^$  ~
+      |.  ^-  (pair type type)
       ?~  rig
         [p.q.p.lop p.q.q.lop]
       =+  zil=(mull %noun dox q.i.rig)
@@ -8444,7 +8465,9 @@
     ?>  =(p.q.p.lop p.q.q.lop)
     =+  hag=[p=~(tap in q.q.p.lop) q=~(tap in q.q.q.lop)]
     =-  [(fire p.-) (fire(vet |) q.-)]
-    |-  ^-  (pair (list (pair type foot)) (list (pair type foot)))
+    =<  $
+    ~%  %endo-two  ..^$  ~
+    |.  ^-  (pair (list (pair type foot)) (list (pair type foot)))
     ?~  rig
       hag
     =+  zil=(mull %noun dox q.i.rig)
@@ -8458,6 +8481,7 @@
     ==
   ::
   ++  ad
+    ~%  %ad  +  ~
     |%
     ++  arc
       |%
@@ -8584,6 +8608,7 @@
     --  --
   ::
   ++  etco
+    ~/  %etco
     |=  {lop/palo rig/(list (pair wing hoon))}
     ^-  (pair type nock)
     =+  cin=(oc (bin:ad make:lib:ad))
@@ -8596,6 +8621,7 @@
     (ecmo:cin ~(tap in q.q.lop) rig)
   ::
   ++  et
+    ~/  %et
     |_  {hyp/wing rig/(list (pair wing hoon))}
     ::
     ++  play
@@ -8605,6 +8631,7 @@
       (elbo p.lug rig)
     ::
     ++  mint
+      ~/  %mint
       |=  gol/type
       ^-  (pair type nock)
       =+  lug=(find %read hyp)
@@ -8613,6 +8640,7 @@
       (etco p.lug rig)
     ::
     ++  mull
+      ~/  %mull
       |=  {gol/type dox/type}
       ^-  {type type}
       =+  lug=[p=(find %read hyp) q=(find(sut dox) %read hyp)]
@@ -8657,6 +8685,7 @@
   ++  fond
     ~/  %fond
     |=  {way/vial hyp/wing}
+    =*  fond-help-parent  .
     =>  |%
         ++  pony                                        ::  raw match
                   $@  $~                                ::  void
@@ -8690,6 +8719,7 @@
         [%& ~ [`p.heg lon] %& (peek way p.heg)]
       =|  gil/(set type)
       =<  $
+      ~%  %fond-help  fond-help-parent  ~
       |%  ++  here  ?:  =(0 p.heg)
                       [%& ~ [~ `axe lon] %& sut]
                     [%| %& (dec p.heg)]
@@ -8845,6 +8875,7 @@
     ==    ==
   ::
   ++  fire
+    ~/  %fire
     |=  hag/(list {p/type q/foot})
     ^-  type
     ?:  ?=({{* {$elm $~ $1}} $~} hag)
@@ -8852,6 +8883,7 @@
     %-  fork
     %+  turn
       hag.$
+    ~%  %fire-turn  ..^$  ~
     |=  {p/type q/foot}
     :-  %hold
     ?.  ?=({$core *} p)
@@ -8876,7 +8908,9 @@
     ~/  %fish
     |=  axe/axis
     =+  vot=*(set type)
-    |-  ^-  nock
+    =<  $
+    ~%  %fish-loop  ..^$  ~
+    |.  ^-  nock
     ?-  sut
         $void       [%1 1]
         $noun       [%1 0]
@@ -8905,7 +8939,9 @@
     ~/  %fuse
     |=  ref/type
     =+  bix=*(set {type type})
-    |-  ^-  type
+    =<  $
+    ~%  %fuse-loop  ..^$  ~
+    |.  ^-  type
     ?:  ?|(=(sut ref) =(%noun ref))
       sut
     ?-    sut
@@ -8947,6 +8983,7 @@
     (chip & gen)
   ::
   ++  harp
+    ~/  %harp
     |=  dab/(map term (pair what foot))
     ^-  ?($~ ^)
     ?:  ?=($~ dab)
@@ -8964,6 +9001,7 @@
     ==
   ::
   ++  hope
+    ~/  %hope
     |=  dom/(map @ tomb)
     ^-  ?($~ ^)
     ?:  ?=($~ dom)
@@ -8998,7 +9036,10 @@
     |=  {gol/type gen/hoon}
     ^-  {p/type q/nock}
     ~&  %pure-mint
-    |^  ^-  {p/type q/nock}
+    =<  $
+    ~%  %mint-help  ..^$  ~
+    |%  ++  $  
+    ^-  {p/type q/nock}
     ?:  ?&(=(%void sut) !?=({$dbug *} gen))
       ?.  |(!vet ?=({$lost *} gen) ?=({$zpzp *} gen))
         ~>(%mean.[%leaf "mint-vain"] !!)
@@ -9141,12 +9182,14 @@
     ==
     ::
     ++  nice
+      ~/  %nice
       |=  typ/type
       ~_  leaf+"mint-nice"
       ?>  ?|(!vet (nest(sut gol) & typ))
       typ
     ::
     ++  grow
+      ~/  %grow
       |=  {mel/vair ruf/hoon wad/chap dom/(map @ tomb)}
       ^-  {p/type q/nock}
       =+  dan=^$(gen ruf, gol %noun)
@@ -9158,7 +9201,9 @@
   ::
   ++  moot
     =+  gil=*(set type)
-    |-  ^-  ?
+    =<  $
+    ~%  %moot  ..moot  ~
+    |.  ^-  ?
     ?-  sut
       {$atom *}  |
       {$cell *}  |($(sut p.sut) $(sut q.sut))
@@ -9613,6 +9658,7 @@
     ==
   ::                                                    ::
   ++  redo                                              ::  refurbish faces
+    ~/  %redo
     |=  $:  ::  ref: raw payload
             ::
             ref/type
@@ -9633,6 +9679,7 @@
         ::  reduce by subject
         ::
         dext
+    ~%  %redo-help  ..$  ~
     |%
     ::                                                  ::
     ++  dear                                            ::  resolve tool stack
@@ -9668,7 +9715,9 @@
       =/  lip
         =|  lup/(unit @ud)
         =|  lip/@ud
-        |-  ^-  @ud
+        =<  $
+        ~%  %dear-loop  ..dear  ~
+        |.  ^-  @ud
         ?:  |((gth lip p.len) (gth lip q.len))
           (fall lup 0)
         ::  lep: overlap candidate: suffix of subject face stack
