@@ -9219,7 +9219,10 @@
   ++  mull
     ~/  %mull
     |=  {gol/type dox/type gen/hoon}
-    |^  ^-  {p/type q/type}
+    =<  $
+    ~%  %mull-help  ..^$  ~
+    |%  ++  $
+    ^-  {p/type q/type}
     ?:  =(%void sut)
       ~>(%mean.[%leaf "mull-none"] !!)
     ?-    gen
@@ -9343,10 +9346,12 @@
     ==
     ::
     ++  beth
+      ~/  %beth
       |=  typ/type
       [(nice typ) typ]
     ::
     ++  nice
+      ~/  %nice
       |=  typ/type
       ::  ~_  (dunk(sut gol) 'need')
       ::  ~_  (dunk(sut typ) 'have')
@@ -9355,6 +9360,7 @@
       typ
     ::
     ++  grow
+      ~/  %grow
       |=  {mel/vair ruf/hoon wad/chap dom/(map @ tomb)}
       ~_  leaf+"mull-grow"
       ^-  {p/type q/type}
@@ -9366,6 +9372,7 @@
       (core q.dan [mel q.dan wad [[%0 0] dom]])
     ::
     ++  bake
+      ~/  %bake
       |=  dab/(map term (pair what foot))
       ^-  *
       ?:  ?=($~ dab)
@@ -9383,6 +9390,7 @@
       ==
     ::
     ++  balk
+      ~/  %balk
       |=  dom/(map @ tomb)
       ^-  *
       ?:  ?=($~ dom)
@@ -9395,9 +9403,12 @@
         {* * *}     [dov $(dom l.dom) $(dom r.dom)]
       ==
     --
-  ++  meet  |=(ref/type &((nest | ref) (nest(sut ref) | sut)))
+  ++  meet  
+    ~/  %meet
+    |=(ref/type &((nest | ref) (nest(sut ref) | sut)))
   ::                                                    ::
   ++  miss                                              ::  nonintersection
+    ~/  %miss
     |=  $:  ::  ref: symmetric type
             ::
             ref/type
@@ -9407,6 +9418,7 @@
     ^-  ?
     =|  gil/(set (set type))
     =<  dext
+    ~%  %miss-help  ..$  ~
     |%
     ++  dext
       ^-  ?
@@ -9442,7 +9454,9 @@
                        dext(sut q.sut, ref q.ref)
       ==           ==
     --
-  ++  mite  |=(ref/type |((nest | ref) (nest(sut ref) & sut)))
+  ++  mite  
+    ~/  %mite
+    |=(ref/type |((nest | ref) (nest(sut ref) & sut)))
   ++  nest
     ~/  %nest
     |=  {tel/? ref/type}
@@ -9451,8 +9465,10 @@
             gil/(set {p/type q/type})                   ::  assume nest
         ==
     =<  dext
+    ~%  %nest-help  ..$  ~
     |%
     ++  deem
+      ~/  %deem
       |=  {mel/vair ram/vair}
       ^-  ?
       ?.  |(=(mel ram) =(%lead mel) =(%gold ram))  |
@@ -9462,6 +9478,7 @@
       dext(sut (peek vay 2), ref (peek(sut ref) vay 2))
     ::
     ++  deep
+      ~/  %deep
       |=  $:  dom/(map @ tomb)
               vim/(map @ tomb)
           ==
@@ -9560,7 +9577,9 @@
       sut
     =+  [now=(cap axe) lat=(mas axe)]
     =+  gil=*(set type)
-    |-  ^-  type
+    =<  $
+    ~%  %peek-loop  ..^$  ~
+    |.  ^-  type
     ?-    sut
         {$atom *}   %void
         {$cell *}   ?:(=(2 now) ^$(sut p.sut, axe lat) ^$(sut q.sut, axe lat))
@@ -9588,6 +9607,7 @@
     ==
   ::
   ++  peel
+    ~/  %peel
     |=  {way/vial met/?($gold $iron $lead $zinc)}
     ^-  {sam/? con/?}
     ?:  ?=($gold met)  [& &]
@@ -9610,10 +9630,14 @@
       {$cnts *}  ~(play et p.gen q.gen)
       {$dtkt *}  $(gen [%bunt p.gen])
       {$dtls *}  [%atom %$ ~]
-      {$rock *}  |-  ^-  type
+      {$rock *}  =<  $
+                 ~%  %rock-loop  ..^$  ~
+                 |.  ^-  type
                  ?@  q.gen  [%atom p.gen `q.gen]
                  [%cell $(q.gen -.q.gen) $(q.gen +.q.gen)]
-      {$sand *}  |-  ^-  type
+      {$sand *}  =<  $
+                 ~%  %sand-loop  ..^$  ~
+                 |.  ^-  type
                  ?@  q.gen
                    ?:  =(%n p.gen)  ?>(=(0 q.gen) [%atom p.gen ~ q.gen])
                    ?:(=(%f p.gen) ?>((lte q.gen 1) bool) [%atom p.gen ~])
@@ -9829,6 +9853,7 @@
       $(lov t.lov, sut (face [~ i.lov] sut))
     ::                                                  ::
     ++  sint                                            ::  reduce by reference
+      ~/  %sint
       |=  $:  ::  hod: expand holds
               ::
               hod/?
@@ -9901,21 +9926,28 @@
     (turn leg |=({p/type q/hoon} (play(sut p) q)))
   ::
   ++  take
+    ~/  %take
     |=  {vit/vein duz/tyro}
     ^-  (pair axis type)
     :-  (tend vit)
     =.  vit  (flop vit)
-    |-  ^-  type
+    =<  $
+    ~%  %take-loop  ..^$  ~
+    |.  ^-  type
     ?~  vit  (duz sut)
     ?~  i.vit
-      |-  ^-  type
+      =<  $
+      ~%  %take-one  ..^$  ~
+      |.  ^-  type
       ?+  sut      ^$(vit t.vit)
         {$face *}  (face p.sut ^$(vit t.vit, sut q.sut))
         {$fork *}  (fork (turn ~(tap in p.sut) |=(type ^$(sut +<))))
         {$hold *}  $(sut repo)
       ==
     =+  vil=*(set type)
-    |-  ^-  type
+    =<  $
+    ~%  %take-two  ..^$  ~
+    |.  ^-  type
     ?:  =(1 u.i.vit)
       ^$(vit t.vit)
     =+  [now lat]=(cap u.i.vit)^(mas u.i.vit)
@@ -9938,6 +9970,7 @@
     ==
   ::
   ++  tack
+    ~/  %tack
     |=  {hyp/wing mur/type}
     ~_  (show [%c %tack] %l hyp)
     =+  fid=(find %rite hyp)
@@ -9945,6 +9978,7 @@
     (take p.p.fid |=(type mur))
   ::
   ++  tend
+    ~/  %tend
     |=  vit/vein
     ^-  axis
     ?~(vit 1 (peg $(vit t.vit) ?~(i.vit 1 u.i.vit)))
@@ -9955,7 +9989,9 @@
     ^-  {p/axis q/(list {p/type q/foot})}
     =-  [(need p.wib) q.wib]
     ^=  wib
-    |-  ^-  {p/(unit axis) q/(list {p/type q/foot})}
+    =<  $
+    ~%  %toss-loop  ..^$  ~
+    |.  ^-  {p/(unit axis) q/(list {p/type q/foot})}
     ?~  men
       [*(unit axis) ~]
     =+  geq=(tack(sut p.i.men) hyp mur)
